@@ -1,5 +1,5 @@
 import pandas as pd
-from data_preparation import prune, count_itemset, count_item, join
+from mining_utils import prune, count_itemset, count_item, join
 
 class AprioriAlgorithm:
     def __init__(self, minsup, verbose=False):
@@ -9,29 +9,28 @@ class AprioriAlgorithm:
     
     def run(self, trans_data):
         freq = pd.DataFrame()
-
+        # print(f'\t[APRIORI] Running Apriori Algorithm with minsup = {self.supp}...')
         df = count_item(trans_data)  # to generate counts of
-        
-        if self.verbose:
-            print(f'Dataset size: {len(df)}')
-            
-        while (len(df) != 0):
 
+        while (len(df) != 0):
+            
+            # print(f'\t[APRIORI] Pruning itemsets with support < {self.supp}...')
             df = prune(df, self.supp)
             
             if self.verbose:
-                print("Minsup =", self.supp,"\n")
-                print("Freq itemset table (Pruned):\n", df)
+                print(f"\t[APRIORI] Freq itemset table (Pruned):\n", df)
 
             if len(df) > 1 or (len(df) == 1 and int(df.supp_count >= self.supp)):
                 freq = df
 
+            # print(f'\t[APRIORI] Joining itemsets...')
             itemsets = join(df.item_sets)
 
             if (itemsets is None):
                 return freq
 
-            df = count_itemset(trans_data, itemsets)
+            # print(f'\t[APRIORI] Counting itemsets...')
+            df = count_itemset(trans_data, itemsets, verbose = self.verbose)
         
         self.freq_item_sets = df
         return df
