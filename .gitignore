@@ -160,3 +160,4 @@ cython_debug/
 #.idea/
 
 microsoft-malware-prediction/
+data/
