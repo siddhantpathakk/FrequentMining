@@ -163,3 +163,4 @@ microsoft-malware-prediction/
 # data/
 yelp/
 amazon-reviews/
+data/.DS_Store
