@@ -13,9 +13,10 @@ class Streamer:
                            header=None)
         
 
-def preprocess(dataset_name, df, threshold_rating, ratings=None, movies=None):
+def preprocess(dataset_name, threshold_rating, df=None,  ratings=None, movies=None):
 
     if dataset_name == 'amazon-reviews':
+        assert df is not None, "df must be provided"
         df.columns = ['reviewer_id', 'item_id', 'rating', 'timestamp']
         filtered_ratings = df[df['rating'] >= threshold_rating]
         transactions = filtered_ratings.groupby('reviewer_id')['item_id'].apply(
@@ -26,6 +27,7 @@ def preprocess(dataset_name, df, threshold_rating, ratings=None, movies=None):
         return movie_transactions
 
     elif dataset_name == 'groceries':
+        assert df is not None, "df must be provided"
         df.columns = ['Member_number', 'Date', 'itemDescription']
         groceries_transactions = df.groupby('Member_number')[
             'itemDescription'].apply(list).reset_index()
@@ -41,6 +43,8 @@ def preprocess(dataset_name, df, threshold_rating, ratings=None, movies=None):
     elif dataset_name == 'movielens':
         assert ratings is not None and movies is not None, "ratings and movies dataframe must be provided"
 
+        ratings.columns = ['userId', 'movieId', 'rating', 'timestamp']
+        movies.columns = ['movieId', 'title', 'genres']
         filtered_ratings = ratings[ratings['rating'] >= threshold_rating]
         merged_data = pd.merge(filtered_ratings, movies,
                                on='movieId', how='inner')
