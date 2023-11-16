@@ -17,7 +17,7 @@ def preprocess(dataset_name, threshold_rating, df=None,  ratings=None, movies=No
 
     if dataset_name == 'amazon-reviews':
         assert df is not None, "df must be provided"
-        df.columns = ['reviewer_id', 'item_id', 'rating', 'timestamp']
+        df.columns = ['item_id', 'reviewer_id', 'rating', 'timestamp']
         filtered_ratings = df[df['rating'] >= threshold_rating]
         transactions = filtered_ratings.groupby('reviewer_id')['item_id'].apply(
             list).reset_index().set_index('reviewer_id')
