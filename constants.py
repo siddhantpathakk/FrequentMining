@@ -6,7 +6,7 @@ dataset_metadata = {
         'size': 233055326,  # original size = 233055326 
         
         'limit': 10**5,
-        'minsup': [1500, 1000, 500, 250],
+        'minsup': [1500, 1000, 500],
         'threshold_rating': 4.0
         
     },
