@@ -5,8 +5,8 @@ dataset_metadata = {
         # using only half the dataset
         'size': 233055326//2,  # original size = 233055326 
         
-        'limit': 10**6,
-        'minsup': [100, 200, 500, 1000, 1500],
+        'limit': 10**5,
+        'minsup': [1500, 1000, 500, 250],
         'threshold_rating': 4.0
         
     },
