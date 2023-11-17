@@ -1,19 +1,6 @@
 import pandas as pd
 
-class Streamer:
-    def __init__(self, filepath, stream_limit):
-        self.filepath = filepath
-        self.stream_limit = stream_limit
-
-    def getCurrentStream(self, stream_id):
-        return pd.read_csv(self.filepath,
-                           skiprows=stream_id*self.stream_limit,
-                           nrows=self.stream_limit,
-                           header=None,
-                           low_memory=True,
-                           )
         
-
 def preprocess(dataset_name, threshold_rating, df=None,  ratings=None, movies=None):
 
     if dataset_name == 'amazon-reviews':
