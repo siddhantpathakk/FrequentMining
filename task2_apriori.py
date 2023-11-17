@@ -5,12 +5,21 @@ from apriori import AprioriAlgorithm
 from preprocessor import preprocess
 from colorama import Fore, Style
 
-def chunker(seq, size):
-    for pos in range(0, len(seq), size):
-        yield seq.iloc[pos:pos + size] 
 
 def apriori_for_dataset(dataset_name, dataset_metadata, verbose=False, minsup_val=None):
+    """
+    Runs Apriori algorithm on the given dataset. For each dataset, the algorithm is run for different minsup values.
+    The results are saved in a csv file in the logs folder.
     
+    Note: For the amazon-reviews dataset, the minsup value must be provided. For other datasets, the minsup values must be
+    provided in the dataset_metadata dictionary.
+
+    Args:
+        dataset_name (str): Name of the dataset (amazon-reviews, groceries, movielens)
+        dataset_metadata (dict): Dictionary containing metadata of all datasets
+        verbose (bool, optional): Verbosity of output. Defaults to False.
+        minsup_val (int, optional): Minimum support value(only if using amazon-reviews). Defaults to None.
+    """
     dataset_meta = dataset_metadata[dataset_name]
     
     if dataset_name == 'amazon-reviews':

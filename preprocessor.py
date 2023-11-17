@@ -2,7 +2,23 @@ import pandas as pd
 
         
 def preprocess(dataset_name, threshold_rating, df=None,  ratings=None, movies=None):
+    """
+    Preprocesses the dataset and returns it as transactions.
+    Each dataset has a different preprocessing method.
 
+    Args:
+        dataset_name (str): Name of the dataset
+        threshold_rating (float): Threshold rating for filtering (only needed for movielens, amazon-reviews)
+        df (pd.DataFrame, optional): Dataset or chunk of the dataset to preprocess. Defaults to None.
+        ratings (pd.DataFrame, optional): Ratings dataframe (only for movielens). Defaults to None.
+        movies (pd.DataFrame, optional): Movies dataframe (only for movielens). Defaults to None.
+
+    Raises:
+        Exception: Invalid dataset name
+
+    Returns:
+        Dataset as transactions
+    """
     if dataset_name == 'amazon-reviews':
         assert df is not None, "df must be provided"
         df.columns = ['item_id', 'reviewer_id', 'rating', 'timestamp']
