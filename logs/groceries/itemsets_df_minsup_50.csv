@@ -1,69 +1,4 @@
 item_sets,supp_count
-beef,294
-canned beer,299
-chicken,291
-citrus fruit,431
-frankfurter,536
-other vegetables,441
-pip fruit,270
-pork,367
-rolls/buns,331
-root vegetables,280
-sausage,729
-soda,289
-tropical fruit,454
-whole milk,670
-yogurt,230
-bottled water,205
-citrus fruit,271
-other vegetables,650
-pip fruit,279
-rolls/buns,461
-root vegetables,429
-soda,347
-tropical fruit,396
-whole milk,774
-yogurt,341
-bottled water,261
-other vegetables,510
-pastry,239
-root vegetables,245
-shopping bags,223
-soda,396
-whipped/sour cream,216
-whole milk,601
-yogurt,444
-bottled beer,177
-bottled water,175
-ham,184
-hamburger meat,163
-meat,169
-beef,160
-bottled beer,165
-pastry,173
-whipped/sour cream,153
-bottled beer,159
-brown bread,194
-butter,191
-curd,169
-domestic eggs,196
-fruit/vegetable juice,158
-margarine,165
-newspapers,172
-pip fruit,152
-"('frankfurter', 'sausage')",109
-"('frankfurter', 'whole milk')",102
-"('sausage', 'tropical fruit')",108
-"('sausage', 'whole milk')",146
-"('other vegetables', 'whole milk')",121
-UHT-milk,100
-canned beer,148
-coffee,141
-cream cheese ,132
-dessert,112
-frozen vegetables,136
-tropical fruit,124
-white bread,122
 "('beef', 'sausage')",60
 "('beef', 'whole milk')",62
 "('canned beer', 'frankfurter')",57
@@ -78,7 +13,9 @@ white bread,122
 "('frankfurter', 'other vegetables')",62
 "('frankfurter', 'pork')",52
 "('frankfurter', 'rolls/buns')",50
+"('frankfurter', 'sausage')",109
 "('frankfurter', 'tropical fruit')",60
+"('frankfurter', 'whole milk')",102
 "('other vegetables', 'sausage')",99
 "('other vegetables', 'tropical fruit')",55
 "('other vegetables', 'whole milk')",89
@@ -91,6 +28,8 @@ white bread,122
 "('root vegetables', 'sausage')",62
 "('root vegetables', 'whole milk')",56
 "('sausage', 'soda')",54
+"('sausage', 'tropical fruit')",108
+"('sausage', 'whole milk')",146
 "('sausage', 'yogurt')",61
 "('soda', 'whole milk')",51
 "('tropical fruit', 'whole milk')",82
@@ -99,6 +38,7 @@ white bread,122
 "('other vegetables', 'root vegetables')",70
 "('other vegetables', 'soda')",58
 "('other vegetables', 'tropical fruit')",73
+"('other vegetables', 'whole milk')",121
 "('other vegetables', 'yogurt')",58
 "('pip fruit', 'whole milk')",54
 "('rolls/buns', 'root vegetables')",59
