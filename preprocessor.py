@@ -6,7 +6,6 @@ class Streamer:
         self.stream_limit = stream_limit
 
     def getCurrentStream(self, stream_id):
-        print(f'Accessing data-stream #{stream_id}')
         return pd.read_csv(self.filepath,
                            skiprows=stream_id*self.stream_limit,
                            nrows=self.stream_limit,
@@ -18,11 +17,12 @@ def preprocess(dataset_name, threshold_rating, df=None,  ratings=None, movies=No
     if dataset_name == 'amazon-reviews':
         assert df is not None, "df must be provided"
         df.columns = ['item_id', 'reviewer_id', 'rating', 'timestamp']
+        
+        df['item_id'] = df['item_id'].values.astype(str)
+        
         filtered_ratings = df[df['rating'] >= threshold_rating]
-        transactions = filtered_ratings.groupby('reviewer_id')['item_id'].apply(
-            list).reset_index().set_index('reviewer_id')
-        transactions["item_id"] = transactions["item_id"].agg(
-            lambda x: ",".join(x))
+        transactions = filtered_ratings.groupby('reviewer_id')['item_id'].apply(list).reset_index().set_index('reviewer_id')
+        transactions["item_id"] = transactions["item_id"].agg(lambda x: ",".join(x))
         movie_transactions = transactions["item_id"].str.split(',')
         return movie_transactions
 
