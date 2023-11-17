@@ -74,3 +74,4 @@ item_sets,supp_count
 "('other vegetables', 'soda', 'yogurt')",11
 "('other vegetables', 'whole milk', 'yogurt')",17
 "('rolls/buns', 'whole milk', 'yogurt')",16
+"('newspapers', 'rolls/buns', 'shopping bags')",11
