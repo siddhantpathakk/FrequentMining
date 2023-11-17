@@ -187,3 +187,77 @@ white bread,122
 "('soda', 'yogurt')",48
 "('whipped/sour cream', 'whole milk')",37
 "('whipped/sour cream', 'yogurt')",26
+"('beef', 'citrus fruit', 'sausage')",12
+"('beef', 'frankfurter', 'rolls/buns')",10
+"('beef', 'frankfurter', 'whole milk')",14
+"('beef', 'other vegetables', 'sausage')",13
+"('beef', 'other vegetables', 'whole milk')",13
+"('beef', 'rolls/buns', 'sausage')",11
+"('beef', 'rolls/buns', 'whole milk')",10
+"('beef', 'sausage', 'whole milk')",17
+"('bottled beer', 'other vegetables', 'sausage')",10
+"('bottled beer', 'sausage', 'whole milk')",10
+"('bottled water', 'sausage', 'whole milk')",11
+"('canned beer', 'frankfurter', 'whole milk')",17
+"('canned beer', 'sausage', 'whole milk')",16
+"('chicken', 'frankfurter', 'whole milk')",11
+"('chicken', 'sausage', 'whole milk')",13
+"('citrus fruit', 'frankfurter', 'sausage')",20
+"('citrus fruit', 'frankfurter', 'tropical fruit')",11
+"('citrus fruit', 'frankfurter', 'whole milk')",12
+"('citrus fruit', 'other vegetables', 'sausage')",15
+"('citrus fruit', 'other vegetables', 'whole milk')",11
+"('citrus fruit', 'pork', 'sausage')",11
+"('citrus fruit', 'pork', 'whole milk')",10
+"('citrus fruit', 'root vegetables', 'whole milk')",13
+"('citrus fruit', 'sausage', 'tropical fruit')",11
+"('citrus fruit', 'sausage', 'whole milk')",19
+"('citrus fruit', 'tropical fruit', 'whole milk')",15
+"('frankfurter', 'other vegetables', 'sausage')",14
+"('frankfurter', 'other vegetables', 'tropical fruit')",11
+"('frankfurter', 'other vegetables', 'whole milk')",15
+"('frankfurter', 'pip fruit', 'sausage')",10
+"('frankfurter', 'pip fruit', 'whole milk')",12
+"('frankfurter', 'pork', 'sausage')",13
+"('frankfurter', 'rolls/buns', 'sausage')",13
+"('frankfurter', 'rolls/buns', 'whole milk')",15
+"('frankfurter', 'root vegetables', 'sausage')",10
+"('frankfurter', 'sausage', 'soda')",16
+"('frankfurter', 'sausage', 'tropical fruit')",16
+"('frankfurter', 'sausage', 'whole milk')",20
+"('frankfurter', 'soda', 'whole milk')",11
+"('ham', 'sausage', 'whole milk')",10
+"('meat', 'sausage', 'whole milk')",11
+"('other vegetables', 'pork', 'sausage')",17
+"('other vegetables', 'pork', 'whole milk')",16
+"('other vegetables', 'rolls/buns', 'sausage')",11
+"('other vegetables', 'sausage', 'tropical fruit')",15
+"('other vegetables', 'tropical fruit', 'whole milk')",11
+"('pastry', 'sausage', 'whole milk')",11
+"('pastry', 'tropical fruit', 'whole milk')",12
+"('pip fruit', 'sausage', 'whole milk')",14
+"('pork', 'sausage', 'tropical fruit')",15
+"('pork', 'sausage', 'whole milk')",16
+"('rolls/buns', 'sausage', 'tropical fruit')",12
+"('rolls/buns', 'sausage', 'whole milk')",16
+"('rolls/buns', 'tropical fruit', 'whole milk')",11
+"('root vegetables', 'sausage', 'whole milk')",13
+"('sausage', 'soda', 'whole milk')",10
+"('sausage', 'tropical fruit', 'whole milk')",24
+"('sausage', 'tropical fruit', 'yogurt')",10
+"('sausage', 'whole milk', 'yogurt')",14
+"('other vegetables', 'pip fruit', 'whole milk')",10
+"('other vegetables', 'rolls/buns', 'whole milk')",16
+"('other vegetables', 'root vegetables', 'whole milk')",13
+"('other vegetables', 'soda', 'whole milk')",12
+"('other vegetables', 'tropical fruit', 'whole milk')",15
+"('other vegetables', 'whole milk', 'yogurt')",12
+"('pip fruit', 'soda', 'whole milk')",10
+"('rolls/buns', 'root vegetables', 'whole milk')",16
+"('rolls/buns', 'soda', 'whole milk')",10
+"('root vegetables', 'soda', 'whole milk')",10
+"('other vegetables', 'rolls/buns', 'whole milk')",17
+"('other vegetables', 'soda', 'whole milk')",14
+"('other vegetables', 'soda', 'yogurt')",11
+"('other vegetables', 'whole milk', 'yogurt')",17
+"('rolls/buns', 'whole milk', 'yogurt')",16
