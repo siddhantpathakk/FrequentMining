@@ -9,7 +9,9 @@ class Streamer:
         return pd.read_csv(self.filepath,
                            skiprows=stream_id*self.stream_limit,
                            nrows=self.stream_limit,
-                           header=None)
+                           header=None,
+                           low_memory=True,
+                           )
         
 
 def preprocess(dataset_name, threshold_rating, df=None,  ratings=None, movies=None):
