@@ -1,0 +1,66 @@
+item_sets,supp_count
+beef,294
+bottled beer,177
+bottled water,175
+canned beer,299
+chicken,291
+citrus fruit,431
+frankfurter,536
+ham,184
+hamburger meat,163
+meat,169
+other vegetables,441
+pip fruit,270
+pork,367
+rolls/buns,331
+root vegetables,280
+sausage,729
+soda,289
+tropical fruit,454
+whole milk,670
+yogurt,230
+beef,160
+bottled beer,165
+bottled water,205
+citrus fruit,271
+other vegetables,650
+pastry,173
+pip fruit,279
+rolls/buns,461
+root vegetables,429
+soda,347
+tropical fruit,396
+whipped/sour cream,153
+whole milk,774
+yogurt,341
+bottled beer,159
+bottled water,261
+brown bread,194
+butter,191
+curd,169
+domestic eggs,196
+fruit/vegetable juice,158
+margarine,165
+newspapers,172
+other vegetables,510
+pastry,239
+pip fruit,152
+root vegetables,245
+shopping bags,223
+soda,396
+whipped/sour cream,216
+whole milk,601
+yogurt,444
+"('frankfurter', 'sausage')",109
+"('frankfurter', 'whole milk')",102
+"('sausage', 'tropical fruit')",108
+"('sausage', 'whole milk')",146
+"('other vegetables', 'whole milk')",121
+UHT-milk,100
+canned beer,148
+coffee,141
+cream cheese ,132
+dessert,112
+frozen vegetables,136
+tropical fruit,124
+white bread,122
