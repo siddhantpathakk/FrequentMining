@@ -3,7 +3,7 @@ dataset_metadata = {
         'path': './data/amazon-reviews/all_csv_files.csv',
         
         # using only half the dataset
-        'size': 233055326//2,  # original size = 233055326 
+        'size': 233055326,  # original size = 233055326 
         
         'limit': 10**5,
         'minsup': [1500, 1000, 500, 250],
