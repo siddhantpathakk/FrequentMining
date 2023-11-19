@@ -6,16 +6,17 @@ dataset_metadata = {
         'size': 233055326,  # original size = 233055326 
         
         'limit': 10**5,
-        'minsup': [1500, 1000, 5000],
+        'minsup': [1000, 1500, 3000, 5000],
         'threshold_rating': 4.0
         
     },
     
+    
     'groceries': {
         'path': './data/groceries/Groceries_dataset.csv',
         'size': 38766,
-        'limit': 10000,
-        'minsup': [10, 50, 100, 150, 200],
+        'limit': 3000,
+        'minsup': [50, 70, 150, 200],
         'threshold_rating': 4.0
     },
     
@@ -23,10 +24,8 @@ dataset_metadata = {
     'movielens': {
         'path': ['./data/movielens/ratings.csv', './data/movielens/movies.csv'],
         'size': 100836, 
-        'limit': 50000,
+        'limit': 10000,
         'minsup': [50, 100, 150, 200, 250],
         'threshold_rating': 4.0
     }
 }
-
-verbose = False
