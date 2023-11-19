@@ -1,0 +1,5 @@
+Candidates:
+('296'),('318'),('356')
+
+Frequent Itemsets:
+('318'),('356')
