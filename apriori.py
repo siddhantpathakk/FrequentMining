@@ -2,7 +2,7 @@ import pandas as pd
 from preprocessor import preprocess
 
 def prune(data,supp):
-    df = data[data['supp_count'] >= supp]
+    df = data[data.supp_count >= supp]
     return df
 
 def count_itemset(transaction_df, itemsets):
@@ -84,35 +84,3 @@ def apriori(trans_data,supp=10):
         df = count_itemset(trans_data, itemsets)
         
     return freq
-
-
-def _convert_apriori_to_set(apriori_fi_df):
-    freq_itemsets = set()
-    for _ , row in apriori_fi_df.iterrows():
-        freq_itemsets.add(frozenset(row['item_sets']))
-    return freq_itemsets
-
-
-def freq_itemset_partition_db(dataset_csv_file, num_partitions, min_supp, preprocess_dataset=True, **kwargs):
-    partition_itemsets = {}
-    for trans_df in pd.read_csv(dataset_csv_file, chunksize=num_partitions, low_memory=True, engine='c', **kwargs):
-        
-        if preprocess_dataset:
-            trans_df = preprocess(trans_df)
-            
-        df = count_item(trans_df)
-        while(len(df) != 0):
-            df = prune(trans_df, min_supp)
-            itemsets = join(df.item_sets)
-
-            if(itemsets is None):
-                break
-            df = count_itemset(trans_df, itemsets)
-            
-            for i in range(len(df)):
-                if df.item_sets[i] not in partition_itemsets.keys():
-                    partition_itemsets[df.item_sets[i]] = df.supp_count[i]
-                else:
-                    partition_itemsets[df.item_sets[i]] += df.supp_count[i]
-                
-    return partition_itemsets
