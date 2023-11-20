@@ -161,7 +161,7 @@ cython_debug/
 
 microsoft-malware-prediction/
 # data/
-yelp/
+
 data/amazon-reviews/
 data/.DS_Store
 .DS_Store
