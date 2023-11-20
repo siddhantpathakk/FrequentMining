@@ -131,9 +131,9 @@ def apriori(basket, support, num_baskets) :
 
 sc = SparkContext(appName='cz4042_v2')
 threshold=0
-support=100
-input_file=r'./data/yelp_dataset/transactions.csv'
-output_file=r'./logs/yelp/yelp_minsup100.txt'
+support=200
+input_file=r'./data/movielens/transactions.csv'
+output_file=r'./logs/movielens/movielens_minsup200.txt'
 
 
 start= time.time()
