@@ -23,9 +23,7 @@ from sklearn.metrics.cluster import completeness_score
 from sklearn.metrics.cluster import homogeneity_score
 from sklearn.metrics.cluster import v_measure_score
 
-from ucimlrepo import fetch_ucirepo
-
-def load_data(name):
+def load_data(name, normalize=False, reduction='mean'):
     if name == 'breast_cancer':
         data = load_breast_cancer()
         df = pd.DataFrame(data.data, columns=data.feature_names)
@@ -37,7 +35,10 @@ def load_data(name):
                 df[col] = (df[col] - df[col].mean()) / df[col].std()
         
         for col in data.feature_names:
-            df[col] = df[col] >= df[col].mean()
+            if reduction == 'mean':
+                df[col] = df[col] >= df[col].mean()
+            elif reduction == 'median':
+                df[col] = df[col] >= df[col].median()
         
         num_classes = 2
         
@@ -54,7 +55,10 @@ def load_data(name):
                 df[col] = (df[col] - df[col].mean()) / df[col].std()
 
         for col in data.feature_names:
-            df[col] = df[col] >= df[col].mean()
+            if reduction == 'mean':
+                df[col] = df[col] >= df[col].mean()
+            elif reduction == 'median':
+                df[col] = df[col] >= df[col].median()
 
         num_classes = 3
 
@@ -70,7 +74,10 @@ def load_data(name):
                 df[col] = (df[col] - df[col].mean()) / df[col].std()
         
         for col in data.feature_names:
-            df[col] = df[col] >= df[col].mean()
+            if reduction == 'mean':
+                df[col] = df[col] >= df[col].mean()
+            elif reduction == 'median':
+                df[col] = df[col] >= df[col].median()
         
         num_classes = 3
         
@@ -86,19 +93,12 @@ def load_data(name):
         for col in df.columns:
                 df[col] = (df[col] - df[col].mean()) / df[col].std()
 
-        num_classes = 2
+        for col in data.feature_names:
+            if reduction == 'mean':
+                df[col] = df[col] >= df[col].mean()
+            elif reduction == 'median':
+                df[col] = df[col] >= df[col].median()
 
-        return df, target.values, num_classes
-
-  
-    if name == 'heart':
-        df = pd.read_csv('./data/heart/heart.csv')
-        df = df.sample(frac=1)
-        target = df['output']
-        df = df.drop('output', axis=1)
-        for col in df.columns:
-            df[col] = df[col] > df[col].median()
-        
         num_classes = 2
         
         return df, target.values, num_classes
@@ -113,8 +113,11 @@ def load_data(name):
             for col in data.feature_names:
                 df[col] = (df[col] - df[col].mean()) / df[col].std()
         
-        for col in df.columns:
-            df[col] = df[col] > df[col].median()
+        for col in data.feature_names:
+            if reduction == 'mean':
+                df[col] = df[col] >= df[col].mean()
+            elif reduction == 'median':
+                df[col] = df[col] >= df[col].median()
         
         num_classes = 6
         
