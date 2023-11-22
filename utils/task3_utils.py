@@ -110,10 +110,10 @@ def load_data(name, normalize=False, reduction='mean'):
         df = df.drop('type_glass', axis=1)
         
         if normalize:
-            for col in data.feature_names:
+            for col in df.columns:
                 df[col] = (df[col] - df[col].mean()) / df[col].std()
         
-        for col in data.feature_names:
+        for col in df.columns:
             if reduction == 'mean':
                 df[col] = df[col] >= df[col].mean()
             elif reduction == 'median':
