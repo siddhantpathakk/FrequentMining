@@ -1,8 +1,43 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
-from scipy import interpolate
-from scipy.spatial import ConvexHull
+# from scipy import interpolate
+# from scipy.spatial import ConvexHull
+
+from utils.task3_utils import *
+
+
+def tune_minsup(df, target, num_classes, minsup_values, algorithms):
+    best_minsups = []
+    
+    for algo in algorithms:
+        best_accuracy_for_algo = 0
+        best_minsup_for_algo = None
+
+        for minsup in minsup_values:
+            frequent_itemsets = get_frequent_itemsets(df, minsup)
+
+            if len(frequent_itemsets) == 0:
+                break
+
+            df_transformed = make_cluster_df(df, frequent_itemsets)
+            clusters = do_clustering(df_transformed, algo, n_clusters=num_classes)
+            accuracy, _ = remap_labels(clusters, target)
+
+            # Update best minsup and accuracy for this algorithm
+            if accuracy > best_accuracy_for_algo:
+                best_accuracy_for_algo = accuracy
+                best_minsup_for_algo = minsup
+
+        if best_minsup_for_algo is not None:
+            best_minsups.append(best_minsup_for_algo)
+
+    if best_minsups:
+        avg_best_minsup = sum(best_minsups) / len(best_minsups)
+        return round(avg_best_minsup,3)
+    else:
+        return None
+
 
 class VotingClassifier:
     def __init__(self, estimators, type, estimator_names):
