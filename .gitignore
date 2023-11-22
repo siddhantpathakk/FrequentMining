@@ -168,3 +168,5 @@ data/.DS_Store
 .DS_Store
 data/yelp_dataset/business.json
 data/yelp_dataset/review.json
+data/ml-20m/
+prep.ipynb
