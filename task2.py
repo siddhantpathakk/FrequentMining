@@ -8,10 +8,12 @@ if __name__ == "__main__":
     sc = SparkContext(appName='cz4042_task2', master='local[*]')
     
     threshold=0
-    support=150
+
+    support=1000
     
-    input_file=r'./data/ml-20m/transactions.csv'
-    output_file=f'./logs/ml-20m/ml-20m_minsup{support}.txt'
+    dataset_name = 'ml-20m'
+    input_file=f'./data/{dataset_name}/transactions.csv'
+    output_file=f'./logs/{dataset_name}/{dataset_name}_minsup{support}.txt'
 
 
     start= time.time()
