@@ -174,6 +174,8 @@ def evalauate_clusters(cluster, target, mapping=None):
     print(f"Adjusted Rand Score: {adjusted_rand_score(cluster,target)}")
     print(f"Adjusted Mutual Info Score: {adjusted_mutual_info_score(cluster, target)}")
     
+    print(f"\nDavies Bouldin Score: {davies_bouldin_score(df, cluster)}")
+    print(f"Silhouette Score: {silhouette_score(df, cluster)}")
 
 def remap_labels(pred_labels, true_labels):
     pred_labels, true_labels = np.array(pred_labels), np.array(true_labels)
