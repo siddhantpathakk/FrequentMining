@@ -80,6 +80,23 @@ def load_data(name):
         
         return df, target.values, num_classes
 
+    if name == 'glass':
+        df = pd.read_csv('./data/glass/glass.csv')
+        df = df.sample(frac=1)
+        target = df['type_glass']
+        df = df.drop('type_glass', axis=1)
+        for col in df.columns:
+            df[col] = df[col] > df[col].median()
+        
+        num_classes = 6
+        
+        return df, target.values, num_classes
+    
+
+    else:
+        raise ValueError("Invalid dataset name")
+
+
 def get_frequent_itemsets(df, minsup):
     return apriori(df, min_support=minsup, use_colnames=True)
 
@@ -128,6 +145,10 @@ def do_clustering(df, algo, n_clusters):
     elif algo == 'spectral':
         spectral = SpectralClustering(n_clusters=n_clusters)
         clusters = spectral.fit_predict(df)
+    
+    elif algo == 'gaussian':
+        gauss = GaussianMixture(n_components=2, n_init=10)
+        clusters = gauss.fit_predict(df)
     
     return clusters
 
