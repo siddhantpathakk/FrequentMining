@@ -85,3 +85,17 @@ def plot_clusters(estimator_names, ip, votes, df_new, target):
     ax[num_est+1].add_artist(legend_1)
     
     plt.show()
+
+    else:
+        fig, ax = plt.subplots(1, 2)
+        fig.set_size_inches(20, 8)
+        
+        scatter_2 = ax[0].scatter(trans_data_pca[:, 0], trans_data_pca[:, 1], c=target, cmap='Set1', alpha=0.7)
+        legend_2 = ax[0].legend(*scatter_2.legend_elements(), loc="lower left", title="Actual Dataset")
+        ax[0].add_artist(legend_2)
+        
+        scatter_1 = ax[1].scatter(trans_data_pca[:, 0], trans_data_pca[:, 1], c=votes, cmap='Set1', alpha=0.7)
+        legend_1 = ax[1].legend(*scatter_1.legend_elements(), loc="lower left", title="Voting")
+        ax[1].add_artist(legend_1)
+        
+        plt.show()
