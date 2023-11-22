@@ -55,37 +55,37 @@ def plot_clusters(estimator_names, ip, votes, df_new, target):
     
     fig.set_size_inches(10*(num_est+2), 8)
     
-    for i,est in enumerate(estimator_names):
-        scatter = ax[i].scatter(trans_data_pca[:, 0],  trans_data_pca[:, 1], c=ip[est], cmap='Set1', alpha=0.7)
-        
-        # # draw the convex hull around the clusters for each estimator
-        # for i in np.unique(target):
-        #     points = trans_data_pca[ip[est] == i]
-        #     hull = ConvexHull(points)
+        for i, est in enumerate(estimator_names):
+            scatter = ax[i].scatter(trans_data_pca[:, 0],  trans_data_pca[:, 1], c=ip[est], cmap='Set1', alpha=0.7)
             
-        #     x_hull = np.append(points[hull.vertices,0],
-        #                points[hull.vertices,0][0])
-        #     y_hull = np.append(points[hull.vertices,1],
-        #                     points[hull.vertices,1][0])
-            
-        #     plt.fill(x_hull, y_hull, alpha=0.3, c='red')
+            # # draw the convex hull around the clusters for each estimator
+            # for i in np.unique(target):
+            #     points = trans_data_pca[ip[est] == i]
+            #     hull = ConvexHull(points)
                 
+            #     x_hull = np.append(points[hull.vertices,0],
+            #                points[hull.vertices,0][0])
+            #     y_hull = np.append(points[hull.vertices,1],
+            #                     points[hull.vertices,1][0])
+                
+            #     plt.fill(x_hull, y_hull, alpha=0.3, c='red')
+                    
+            
+            legend = ax[i].legend(*scatter.legend_elements(),
+                                loc="lower left", title=est)
+            
+            ax[i].add_artist(legend)
         
-        legend = ax[i].legend(*scatter.legend_elements(),
-                            loc="lower left", title=est)
+        scatter_2 = ax[num_est].scatter(trans_data_pca[:, 0], trans_data_pca[:, 1], c=target, cmap='Set1', alpha=0.7)
+        legend_2 = ax[num_est].legend(*scatter_2.legend_elements(), loc="lower left", title="Actual Dataset")
+        ax[num_est].add_artist(legend_2)
         
-        ax[i].add_artist(legend)
+        scatter_1 = ax[num_est+1].scatter(trans_data_pca[:, 0], trans_data_pca[:, 1], c=votes, cmap='Set1', alpha=0.7)
+        legend_1 = ax[num_est+1].legend(*scatter_1.legend_elements(), loc="lower left", title="Voting")
+        ax[num_est+1].add_artist(legend_1)
+        
+        plt.show()
     
-    scatter_2 = ax[num_est].scatter(trans_data_pca[:, 0], trans_data_pca[:, 1], c=target, cmap='Set1', alpha=0.7)
-    legend_2 = ax[num_est].legend(*scatter_2.legend_elements(), loc="lower left", title="Actual Dataset")
-    ax[num_est].add_artist(legend_2)
-    
-    scatter_1 = ax[num_est+1].scatter(trans_data_pca[:, 0], trans_data_pca[:, 1], c=votes, cmap='Set1', alpha=0.7)
-    legend_1 = ax[num_est+1].legend(*scatter_1.legend_elements(), loc="lower left", title="Voting")
-    ax[num_est+1].add_artist(legend_1)
-    
-    plt.show()
-
     else:
         fig, ax = plt.subplots(1, 2)
         fig.set_size_inches(20, 8)
