@@ -160,6 +160,9 @@ def do_clustering(df, algo, n_clusters):
         gauss = GaussianMixture(n_components=2, n_init=10)
         clusters = gauss.fit_predict(df)
     
+    else:
+        raise ValueError("Invalid algorithm name")
+    
     return clusters
 
 def evalauate_clusters(cluster, target, mapping=None):
