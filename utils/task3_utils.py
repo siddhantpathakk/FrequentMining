@@ -32,8 +32,12 @@ def load_data(name):
         df['target'] = data.target
         df = df.sample(frac=1)
         
+        if normalize:
         for col in data.feature_names:
-            df[col] = df[col] > df[col].median()
+                df[col] = (df[col] - df[col].mean()) / df[col].std()
+        
+        for col in data.feature_names:
+            df[col] = df[col] >= df[col].mean()
         
         num_classes = 2
         
@@ -45,8 +49,12 @@ def load_data(name):
         df['target'] = data.target
         df = df.sample(frac=1)
 
+        if normalize:
         for col in data.feature_names:
-            df[col] = df[col] > df[col].median()
+                df[col] = (df[col] - df[col].mean()) / df[col].std()
+
+        for col in data.feature_names:
+            df[col] = df[col] >= df[col].mean()
 
         num_classes = 3
 
@@ -57,9 +65,12 @@ def load_data(name):
         df = pd.DataFrame(data.data, columns=data.feature_names)
         df['target'] = data.target
         df = df.sample(frac=1)
+ 
+            for col in data.feature_names:
+                df[col] = (df[col] - df[col].mean()) / df[col].std()
         
         for col in data.feature_names:
-            df[col] = df[col] > df[col].median()
+            df[col] = df[col] >= df[col].mean()
         
         num_classes = 3
         
@@ -70,8 +81,10 @@ def load_data(name):
         df = df.sample(frac=1)
         target = df['Outcome']
         df = df.drop('Outcome', axis=1)
+
+        if normalize:
         for col in df.columns:
-            df[col] = df[col] > df[col].median()
+                df[col] = (df[col] - df[col].mean()) / df[col].std()
 
         num_classes = 2
 
@@ -95,6 +108,11 @@ def load_data(name):
         df = df.sample(frac=1)
         target = df['type_glass']
         df = df.drop('type_glass', axis=1)
+        
+        if normalize:
+            for col in data.feature_names:
+                df[col] = (df[col] - df[col].mean()) / df[col].std()
+        
         for col in df.columns:
             df[col] = df[col] > df[col].median()
         
