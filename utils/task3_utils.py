@@ -208,3 +208,11 @@ def plot_clusters(df_new, clusters, target):
     ax[1].scatter(trans_data_pca[:, 0],  trans_data_pca[:, 1], c=target, cmap='viridis')
     ax[1].set_title('Actual clusters')
     plt.show()
+    
+def task3(df, target, num_classes, algo):
+    print('Running Task 3 for ' + algo)
+    clusters = do_clustering(df, algo, n_clusters=num_classes)
+    acc, remapped_labels = remap_labels(clusters, target)
+    print(f"Accuracy: {acc}")
+    evaluate_clusters(remapped_labels, target, df)
+    plot_clusters(df, remapped_labels, target)
