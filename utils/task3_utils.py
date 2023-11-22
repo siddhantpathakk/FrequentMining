@@ -160,3 +160,16 @@ def evalauate_clusters(cluster, target, mapping=None):
     print(f"Completeness Score: {completeness_score(cluster,target)}")
     print(f"Adjusted Rand Score: {adjusted_rand_score(cluster,target)}")
     print(f"Adjusted Mutual Info Score: {adjusted_mutual_info_score(cluster, target)}")
+    
+def plot_clusters(df_new, clusters, target, n_clusters):
+    
+    # Reduce dimensionality for visualization (adjust n_components as needed)
+    pca = PCA(n_components=2)
+    trans_data_pca = pca.fit_transform(df_new)
+
+    fig, ax = plt.subplots(1, 2, figsize=(12, 4))
+    ax[0].scatter(trans_data_pca[:, 0],  trans_data_pca[:, 1],c=clusters, cmap='viridis')
+    ax[0].set_title('Predicted clusters')
+    ax[1].scatter(trans_data_pca[:, 0],  trans_data_pca[:, 1], c=target, cmap='viridis')
+    ax[1].set_title('Actual clusters')
+    plt.show()
