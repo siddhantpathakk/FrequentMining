@@ -1,6 +1,0 @@
-Candidates:
-('-OKB11ypR4C8wWlonBFIGw'),('4_OXOjAUA9Q8L6VdZz692w'),('Gb5nFcTgOBWeMrmCIbxqJA'),('I_mCFePUG2MGuH-zuws7bA'),('J0joPXxmN-_9Lzafspqdbw'),('PY9GRfzr4nTZeINf346QOw'),('TDKBPcViJQDMrdUm6a9XZA'),('Z_WZq3uFGqvtjsFl6kNBQA'),('_NozEKb4y0jkC08DWU8ywA'),('lEi0T3m96A2NXXDSn7569A'),('ld_H5-FpZOWm_tkzwkPYQQ'),('mcr1lAEdvGLMJhuPwI3I2A'),('pWuoHHu0LuVrD0HjadDygg'),('rSYyGcZZziJLsqKl5hMcDw'),('vHr8qhM4CXYB3Ol_9yS6QQ'),('ve_-rPlEGPClytyJtY55Vw'),('wz8ZPfySQczcPgSyd33-HQ')
-
-Frequent Itemsets:
-('-OKB11ypR4C8wWlonBFIGw'),('4_OXOjAUA9Q8L6VdZz692w'),('Gb5nFcTgOBWeMrmCIbxqJA'),('I_mCFePUG2MGuH-zuws7bA'),('J0joPXxmN-_9Lzafspqdbw'),('PY9GRfzr4nTZeINf346QOw'),('TDKBPcViJQDMrdUm6a9XZA'),('Z_WZq3uFGqvtjsFl6kNBQA'),('_NozEKb4y0jkC08DWU8ywA'),('lEi0T3m96A2NXXDSn7569A'),('ld_H5-FpZOWm_tkzwkPYQQ'),('mcr1lAEdvGLMJhuPwI3I2A'),('pWuoHHu0LuVrD0HjadDygg'),('rSYyGcZZziJLsqKl5hMcDw'),('ve_-rPlEGPClytyJtY55Vw'),('wz8ZPfySQczcPgSyd33-HQ')
-Duration: 10.890344858169556s
