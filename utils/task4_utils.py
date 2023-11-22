@@ -10,9 +10,12 @@ from utils.task3_utils import *
 def tune_minsup(df, target, num_classes, minsup_values, algorithms):
     best_minsups = []
     
-    for algo in algorithms:
-        best_accuracy_for_algo = 0
-        best_minsup_for_algo = None
+    for minsup in minsup_values:
+        frequent_itemsets = get_frequent_itemsets(df, minsup)
+        
+        for algo in algorithms:
+            best_accuracy_for_algo = 0
+            best_minsup_for_algo = None
 
         for minsup in minsup_values:
             frequent_itemsets = get_frequent_itemsets(df, minsup)
