@@ -5,6 +5,16 @@ from sklearn.cluster import SpectralClustering
 import pandas as pd
 from mlxtend.frequent_patterns import apriori
 from itertools import chain, combinations
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+import numpy as np 
+from itertools import permutations
+
+# from ucimlrepo import fetch_ucirepo
+from sklearn.datasets import load_wine, load_iris, load_breast_cancer
+from sklearn.cluster import AgglomerativeClustering, SpectralClustering
+from sklearn.mixture import GaussianMixture
+from sklearn.metrics.cluster import adjusted_mutual_info_score, adjusted_rand_score, completeness_score, homogeneity_score, v_measure_score
 from kmodes.kmodes import KModes
 
 from sklearn.metrics.cluster import adjusted_mutual_info_score
@@ -160,6 +170,26 @@ def evalauate_clusters(cluster, target, mapping=None):
     print(f"Completeness Score: {completeness_score(cluster,target)}")
     print(f"Adjusted Rand Score: {adjusted_rand_score(cluster,target)}")
     print(f"Adjusted Mutual Info Score: {adjusted_mutual_info_score(cluster, target)}")
+    
+
+def remap_labels(pred_labels, true_labels):
+    pred_labels, true_labels = np.array(pred_labels), np.array(true_labels)
+    assert pred_labels.ndim == 1 == true_labels.ndim
+    assert len(pred_labels) == len(true_labels)
+    cluster_names = np.unique(pred_labels)
+    accuracy = 0
+    perms = np.array(list(permutations(np.unique(true_labels))))
+    remapped_labels = true_labels
+    for perm in perms:
+        flipped_labels = np.zeros(len(true_labels))
+        for label_index, label in enumerate(cluster_names):
+            flipped_labels[pred_labels == label] = perm[label_index]
+        testAcc = np.sum(flipped_labels == true_labels) / len(true_labels)
+        if testAcc > accuracy:
+            accuracy = testAcc
+            remapped_labels = flipped_labels
+    return accuracy, remapped_labels
+
     
 def plot_clusters(df_new, clusters, target):
     
