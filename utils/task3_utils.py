@@ -161,7 +161,7 @@ def evalauate_clusters(cluster, target, mapping=None):
     print(f"Adjusted Rand Score: {adjusted_rand_score(cluster,target)}")
     print(f"Adjusted Mutual Info Score: {adjusted_mutual_info_score(cluster, target)}")
     
-def plot_clusters(df_new, clusters, target, n_clusters):
+def plot_clusters(df_new, clusters, target):
     
     # Reduce dimensionality for visualization (adjust n_components as needed)
     pca = PCA(n_components=2)
