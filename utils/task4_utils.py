@@ -17,9 +17,6 @@ def tune_minsup(df, target, num_classes, minsup_values, algorithms):
             best_accuracy_for_algo = 0
             best_minsup_for_algo = None
 
-        for minsup in minsup_values:
-            frequent_itemsets = get_frequent_itemsets(df, minsup)
-
             if len(frequent_itemsets) == 0:
                 break
 
@@ -48,23 +45,25 @@ class VotingClassifier:
         self.type = type
         self.estimator_names = estimator_names
 
-    def fit_predict(self, df):
+    def fit_predict(self, df, target):
         individual_predictions = {}
         for c, estimator in enumerate(self.estimators):
             clusters = estimator.fit_predict(df)
-            individual_predictions[self.estimator_names[c]] = clusters
-
+            _, remapped_labels = remap_labels(clusters, target)
+            individual_predictions[self.estimator_names[c]] = remapped_labels
+            
         return individual_predictions
 
-    def voting(self, individual_predictions, num_classes, num_samples):
+    def voting(self, individual_predictions, num_classes, num_samples, target, weights_of_estimators=None):
         if self.type == 'hard':
-            return self.hard_voting(individual_predictions, num_classes, num_samples)
-        # elif self.type == 'soft':
-        #     return self.soft_voting(individual_predictions, num_classes, num_samples)
+            votes = self.hard_voting(individual_predictions, num_samples)
+            acc, votes = remap_labels(votes, target)
+            print(f'Accuracy for voting classifier:\t{acc:.4f}\n')
+            return votes
         else:
-            raise ValueError('type must be either hard or soft')
+            raise NotImplementedError('Only hard voting is implemented for now. Please use type="hard"')
 
-    def hard_voting(self, individual_predictions, num_classes, num_samples):
+    def hard_voting(self, individual_predictions, num_samples):
         # simply count the votes of each estimator class
         # and return the most voted class
         new_votes = []
@@ -72,9 +71,8 @@ class VotingClassifier:
             cur_votes = self.get_cur_votes(individual_predictions, i)
             most_voted = np.argmax(np.bincount(cur_votes))
             new_votes.append(most_voted)
-
         return new_votes
-
+    
     def get_cur_votes(self, individual_predictions, idx):
         cur_val = []
         for estimator_class in self.estimator_names:
@@ -82,17 +80,18 @@ class VotingClassifier:
         return cur_val
 
 
-def plot_clusters(estimator_names, ip, votes, df_new, target):
+def plot_clusters(estimator_names, ip, votes, df_new, target, plot_all=False):
 
     # Reduce dimensionality for visualization (adjust n_components as needed)
     pca = PCA(n_components=2)
     trans_data_pca = pca.fit_transform(df_new)
 
-    num_est = len(estimator_names)
-    fig, ax = plt.subplots(1, num_est+2)
-    
-    fig.set_size_inches(10*(num_est+2), 8)
-    
+    if plot_all:
+        num_est = len(estimator_names)
+        fig, ax = plt.subplots(1, num_est+2)
+        
+        fig.set_size_inches(10*(num_est+2), 8)
+        
         for i, est in enumerate(estimator_names):
             scatter = ax[i].scatter(trans_data_pca[:, 0],  trans_data_pca[:, 1], c=ip[est], cmap='Set1', alpha=0.7)
             

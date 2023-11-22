@@ -1,9 +1,4 @@
-from sklearn.datasets import load_wine, load_iris, load_breast_cancer
-from sklearn.cluster import AgglomerativeClustering
-from sklearn.cluster import SpectralClustering
-
 import pandas as pd
-from mlxtend.frequent_patterns import apriori
 from itertools import chain, combinations
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
@@ -12,16 +7,14 @@ from itertools import permutations
 
 # from ucimlrepo import fetch_ucirepo
 from sklearn.datasets import load_wine, load_iris, load_breast_cancer
-from sklearn.cluster import AgglomerativeClustering, SpectralClustering
+from sklearn.cluster import AgglomerativeClustering, SpectralClustering, KMeans
 from sklearn.mixture import GaussianMixture
-from sklearn.metrics.cluster import adjusted_mutual_info_score, adjusted_rand_score, completeness_score, homogeneity_score, v_measure_score
+from sklearn.metrics.cluster import adjusted_mutual_info_score, adjusted_rand_score, completeness_score, homogeneity_score, v_measure_score, mutual_info_score
+from sklearn.metrics import davies_bouldin_score, silhouette_score
 from kmodes.kmodes import KModes
 
-from sklearn.metrics.cluster import adjusted_mutual_info_score
-from sklearn.metrics.cluster import adjusted_rand_score
-from sklearn.metrics.cluster import completeness_score
-from sklearn.metrics.cluster import homogeneity_score
-from sklearn.metrics.cluster import v_measure_score
+from mlxtend.frequent_patterns import apriori
+# from mlxtend.preprocessing import TransactionEncoder
 
 def load_data(name, normalize=False, reduction='mean'):
     if name == 'breast_cancer':
@@ -31,7 +24,7 @@ def load_data(name, normalize=False, reduction='mean'):
         df = df.sample(frac=1)
         
         if normalize:
-        for col in data.feature_names:
+            for col in data.feature_names:
                 df[col] = (df[col] - df[col].mean()) / df[col].std()
         
         for col in data.feature_names:
@@ -51,7 +44,7 @@ def load_data(name, normalize=False, reduction='mean'):
         df = df.sample(frac=1)
 
         if normalize:
-        for col in data.feature_names:
+            for col in data.feature_names:
                 df[col] = (df[col] - df[col].mean()) / df[col].std()
 
         for col in data.feature_names:
@@ -70,6 +63,7 @@ def load_data(name, normalize=False, reduction='mean'):
         df['target'] = data.target
         df = df.sample(frac=1)
  
+        if normalize:
             for col in data.feature_names:
                 df[col] = (df[col] - df[col].mean()) / df[col].std()
         
@@ -90,7 +84,7 @@ def load_data(name, normalize=False, reduction='mean'):
         df = df.drop('Outcome', axis=1)
 
         if normalize:
-        for col in df.columns:
+            for col in df.columns:
                 df[col] = (df[col] - df[col].mean()) / df[col].std()
 
         for col in data.feature_names:
@@ -100,7 +94,7 @@ def load_data(name, normalize=False, reduction='mean'):
                 df[col] = df[col] >= df[col].median()
 
         num_classes = 2
-        
+
         return df, target.values, num_classes
 
     if name == 'glass':
@@ -123,7 +117,6 @@ def load_data(name, normalize=False, reduction='mean'):
         
         return df, target.values, num_classes
     
-
     else:
         raise ValueError("Invalid dataset name")
 
@@ -165,12 +158,15 @@ def make_cluster_df(df, frequent_itemsets):
 
 def do_clustering(df, algo, n_clusters):
     if algo == 'kmodes':
-        kmode = KModes(n_clusters=n_clusters,
-                       init='Huang', n_init=5, verbose=0)
+        kmode = KModes(n_clusters=n_clusters, init='Cao', verbose=0)
         clusters = kmode.fit_predict(df)
         
     elif algo == 'agglomerative':
-        aggloCluster = AgglomerativeClustering(n_clusters=n_clusters)
+        aggloCluster = AgglomerativeClustering(n_clusters=n_clusters, linkage='average')
+        clusters = aggloCluster.fit_predict(df)
+
+    elif algo == 'ward':
+        aggloCluster = AgglomerativeClustering(n_clusters=n_clusters, linkage='ward')
         clusters = aggloCluster.fit_predict(df)
     
     elif algo == 'spectral':
@@ -178,8 +174,12 @@ def do_clustering(df, algo, n_clusters):
         clusters = spectral.fit_predict(df)
     
     elif algo == 'gaussian':
-        gauss = GaussianMixture(n_components=2, n_init=10)
+        gauss = GaussianMixture(n_components=n_clusters, n_init=10)
         clusters = gauss.fit_predict(df)
+    
+    elif algo == 'kmeans':
+        kmeans = KMeans(n_clusters=n_clusters, n_init=10)
+        clusters = kmeans.fit_predict(df)
     
     else:
         raise ValueError("Invalid algorithm name")
@@ -194,8 +194,8 @@ def evaluate_clusters(cluster, target, df=None):
     print(f"Mutual Info Score:\t{mutual_info_score(cluster, target):.4f}")
     print(f"Adj. Mutual Info Score:\t{adjusted_mutual_info_score(cluster, target):.4f}")
     
-    print(f"\nDavies Bouldin Score: {davies_bouldin_score(df, cluster)}")
-    print(f"Silhouette Score: {silhouette_score(df, cluster)}")
+    print(f"\nDavies Bouldin Score:\t{davies_bouldin_score(df, cluster):.4f}")
+    print(f"Silhouette Score:\t{silhouette_score(df, cluster):.4f}")
 
 def remap_labels(pred_labels, true_labels):
     pred_labels, true_labels = np.array(pred_labels), np.array(true_labels)
@@ -223,16 +223,22 @@ def plot_clusters(df_new, clusters, target):
     trans_data_pca = pca.fit_transform(df_new)
 
     fig, ax = plt.subplots(1, 2, figsize=(12, 4))
-    ax[0].scatter(trans_data_pca[:, 0],  trans_data_pca[:, 1],c=clusters, cmap='viridis')
+    scatter = ax[0].scatter(trans_data_pca[:, 0],  trans_data_pca[:, 1],c=clusters, cmap='viridis')
     ax[0].set_title('Predicted clusters')
-    ax[1].scatter(trans_data_pca[:, 0],  trans_data_pca[:, 1], c=target, cmap='viridis')
+    legend = ax[0].legend(*scatter.legend_elements(), loc="lower left", title="Classes")
+    ax[0].add_artist(legend)
+    
+    scatter2 = ax[1].scatter(trans_data_pca[:, 0],  trans_data_pca[:, 1], c=target, cmap='viridis')
     ax[1].set_title('Actual clusters')
+    legend2 = ax[1].legend(*scatter2.legend_elements(),loc="lower left", title="Classes")
+    ax[1].add_artist(legend2)
+    
     plt.show()
     
 def task3(df, target, num_classes, algo):
     print('Running Task 3 for ' + algo)
     clusters = do_clustering(df, algo, n_clusters=num_classes)
     acc, remapped_labels = remap_labels(clusters, target)
-    print(f"Accuracy: {acc}")
+    print(f"\nAccuracy after remap:\t{acc:.4f}")
     evaluate_clusters(remapped_labels, target, df)
     plot_clusters(df, remapped_labels, target)
