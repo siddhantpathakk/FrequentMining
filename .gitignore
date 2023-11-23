@@ -161,10 +161,4 @@ cython_debug/
 
 microsoft-malware-prediction/
 # data/
-
-data/amazon-reviews/
-data/.DS_Store
-.DS_Store
-.DS_Store
-data/yelp_dataset/business.json
-data/yelp_dataset/review.json
+data/
