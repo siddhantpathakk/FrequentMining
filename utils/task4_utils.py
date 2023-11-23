@@ -25,6 +25,19 @@ def _fix_dictionary(_ans_dict):
                 
 
 def tune_minsup(df, target, num_classes, minsup_values, algorithms):
+    """
+    Tune minsup for each algorithm and return the best minsup for all algorithms
+
+    Args:
+        df (pd.DataFrame): Dataframe of the dataset
+        target (pd.Series): Target column of the dataset
+        num_classes (int): Number of classes in the dataset
+        minsup_values (list): List of minsup values to try
+        algorithms (list): List of algorithms to try
+
+    Returns:
+        float: Best minsup value for all algorithms
+    """
     best_minsups = []
     accs_dict = _init_empty_dict(minsup_values, algorithms)
     
@@ -92,6 +105,16 @@ class VotingClassifier:
         self.estimator_names = estimator_names
 
     def fit_predict(self, df, target):
+        """
+        Fit the estimators on the dataset and return the predictions of each estimator
+
+        Args:
+            df (pd.DataFrame): Dataframe of the dataset
+            target (pd.Series): Target column of the dataset
+
+        Returns:
+            dict: Dictionary of predictions of each estimator
+        """
         individual_predictions = {}
         for c, estimator in enumerate(self.estimators):
             clusters = estimator.fit_predict(df)
@@ -101,6 +124,22 @@ class VotingClassifier:
         return individual_predictions
 
     def voting(self, individual_predictions, num_classes, num_samples, target, weights_of_estimators=None):
+        """
+        Perform voting on the predictions of each estimator
+
+        Args:
+            individual_predictions (dict): Dictionary of predictions of each estimator
+            num_classes (int): Number of classes in the dataset
+            num_samples (int): Number of samples in the dataset
+            target (pd.Series): Target column of the dataset
+            weights_of_estimators (list, optional): List of weights for each estimator. Defaults to None.
+
+        Raises:
+            NotImplementedError: Only hard voting is implemented for now. Please use type="hard"
+
+        Returns:
+            list: List of votes for each sample
+        """
         if self.type == 'hard':
             votes = self.hard_voting(individual_predictions, num_samples)
             acc, votes = remap_labels(votes, target)
@@ -110,6 +149,16 @@ class VotingClassifier:
             raise NotImplementedError('Only hard voting is implemented for now. Please use type="hard"')
 
     def hard_voting(self, individual_predictions, num_samples):
+        """
+        Perform hard voting on the predictions of each estimator
+
+        Args:
+            individual_predictions (dict): Dictionary of predictions of each estimator
+            num_samples (int): Number of samples in the dataset
+
+        Returns:
+            list: List of votes for each sample
+        """
         new_votes = []
         for i in range(num_samples):
             cur_votes = self.get_cur_votes(individual_predictions, i)
@@ -118,6 +167,16 @@ class VotingClassifier:
         return new_votes
     
     def get_cur_votes(self, individual_predictions, idx):
+        """
+        Get the votes for a particular sample
+
+        Args:
+            individual_predictions (dict): Dictionary of predictions of each estimator
+            idx (int): Index of the sample
+
+        Returns:
+            list: List of votes for the sample
+        """
         cur_val = []
         for estimator_class in self.estimator_names:
             cur_val.append(individual_predictions[estimator_class][idx])
@@ -125,6 +184,17 @@ class VotingClassifier:
 
 
 def plot_clusters(estimator_names, ip, votes, df_new, target, plot_all=False):
+    """
+    Plot the clusters of each estimator and the voting
+
+    Args:
+        estimator_names (list): List of names of the estimators
+        ip (dict): Dictionary of predictions of each estimator
+        votes (list): List of votes for each sample
+        df_new (pd.DataFrame): Dataframe of the dataset
+        target (pd.Series): Target column of the dataset
+        plot_all (bool, optional): Whether to plot all the estimators or just the voting. Defaults to False.
+    """
 
     # Reduce dimensionality for visualization (adjust n_components as needed)
     pca = PCA(n_components=2)

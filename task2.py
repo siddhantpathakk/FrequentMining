@@ -85,9 +85,6 @@ if __name__ == "__main__":
         s=s.replace(',)',')').replace('), (','),(')
 
     with open(output_file,'w') as f:
-        # f.write("Candidates:")
-        # f.write("\n")
-        # f.write(s1)
         f.write("Frequent Itemsets:")
         f.write("\n")
         f.write(s[:-2]) 

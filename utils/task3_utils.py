@@ -18,6 +18,23 @@ from mlxtend.frequent_patterns import apriori
 # from mlxtend.preprocessing import TransactionEncoder
 
 def load_data(name, normalize=False, reduction='mean'):
+    """
+    Load the dataset with the given name.
+
+    Args:
+        name (str): Name of the dataset to load.
+        normalize (bool, optional): Normalisation. Defaults to False.
+        reduction (str, optional): Reduction for binarization. Defaults to 'mean'.
+
+    Raises:
+        ValueError: Invalid dataset name.
+
+    Returns:
+        tuple: Tuple containing:
+            X (pd.DataFrame): Features.
+            y (np.ndarray): Target.
+            num_classes (int): Number of classes.
+    """
     if name == 'breast_cancer':
         data = load_breast_cancer()
         df = pd.DataFrame(data.data, columns=data.feature_names)
@@ -150,6 +167,16 @@ def get_subsets(s):
     return chain.from_iterable(combinations(s, r) for r in range(1, len(s)+1))
 
 def make_cluster_df(df, frequent_itemsets):
+    """
+    Make a dataframe with the frequent itemsets as columns.
+
+    Args:
+        df (pd.DataFrame): Dataframe with the transactions.
+        frequent_itemsets (pd.DataFrame): Frequent itemsets.
+
+    Returns:
+        np.ndarray: Dataframe with the frequent itemsets as columns.
+    """
     new_list = set()
     for item in frequent_itemsets['itemsets']:
         if len(item) == 1:
@@ -179,6 +206,20 @@ def make_cluster_df(df, frequent_itemsets):
 
 
 def do_clustering(df, algo, n_clusters):
+    """
+    Perform clustering on the given dataframe.
+
+    Args:
+        df (pd.DataFrame): Dataframe with the transactions.
+        algo (str): Algorithm to use for clustering.
+        n_clusters (int): Number of clusters.
+
+    Raises:
+        ValueError: Invalid algorithm name.
+
+    Returns:
+        np.ndarray: Cluster labels.
+    """
     if algo == 'kmodes':
         kmode = KModes(n_clusters=n_clusters, init='Cao', verbose=0)
         clusters = kmode.fit_predict(df)
@@ -208,18 +249,31 @@ def do_clustering(df, algo, n_clusters):
     
     return clusters
 
-def evaluate_clusters(cluster, target, df=None):
-    # print(f"V measure Score:\t{v_measure_score(cluster, target):.4f}")
-    # print(f"Homogeneity Score:\t{homogeneity_score(cluster, target):.4f}")
-    # print(f"Completeness Score:\t{completeness_score(cluster, target):.4f}")
-    # print(f"Adj. Rand Score:\t{adjusted_rand_score(cluster, target):.4f}")
-    # print(f"Mutual Info Score:\t{mutual_info_score(cluster, target):.4f}")
-    # print(f"Adj. Mutual Info Score:\t{adjusted_mutual_info_score(cluster, target):.4f}")
-    
+def evaluate_clusters(cluster, target, df):
+    """
+    Evaluate the clusters using various metrics.
+
+    Args:
+        cluster (np.ndarray): Cluster labels.
+        target (np.ndarray): Target labels.
+        df (pd.DataFrame): Dataframe with the transactions.
+    """
+    assert df is not None
     print(f"\nDavies Bouldin Score:\t{davies_bouldin_score(df, cluster):.4f}")
     print(f"Silhouette Score:\t{silhouette_score(df, cluster):.4f}")
 
 def remap_labels(pred_labels, true_labels):
+    """
+    Remap the labels to maximize the accuracy.
+
+    Args:
+        pred_labels (np.ndarray): Predicted labels.
+        true_labels (np.ndarray): True labels.
+
+    Returns:
+        float: Accuracy after remapping.
+        np.ndarray: Remapped labels.
+    """
     pred_labels, true_labels = np.array(pred_labels), np.array(true_labels)
     assert pred_labels.ndim == 1 == true_labels.ndim
     assert len(pred_labels) == len(true_labels)
@@ -239,6 +293,14 @@ def remap_labels(pred_labels, true_labels):
 
     
 def plot_clusters(df_new, clusters, target):
+    """
+    Plot the clusters.
+
+    Args:
+        df_new (pd.DataFrame): Dataframe with the transactions.
+        clusters (np.ndarray): Cluster labels.
+        target (np.ndarray): True labels.
+    """
     
     # Reduce dimensionality for visualization (adjust n_components as needed)
     pca = PCA(n_components=2)
@@ -258,6 +320,15 @@ def plot_clusters(df_new, clusters, target):
     plt.show()
     
 def task3(df, target, num_classes, algo):
+    """
+    Run task 3 for the given dataset.
+
+    Args:
+        df (pd.DataFrame): Dataframe with the transactions.
+        target (np.ndarray): True labels.
+        num_classes (int): Number of classes.
+        algo (str): Algorithm to use for clustering.
+    """
     print('Running Task 3 for ' + algo)
     clusters = do_clustering(df, algo, n_clusters=num_classes)
     acc, remapped_labels = remap_labels(clusters, target)
