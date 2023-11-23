@@ -14,6 +14,8 @@ from sklearn.metrics.cluster import adjusted_mutual_info_score, adjusted_rand_sc
 from sklearn.metrics import davies_bouldin_score, silhouette_score
 from kmodes.kmodes import KModes
 
+import plotly.express as px
+import plotly.graph_objects as go
 from mlxtend.frequent_patterns import apriori
 # from mlxtend.preprocessing import TransactionEncoder
 
@@ -239,6 +241,65 @@ def plot_clusters(df_new, clusters, target):
     ax[1].add_artist(legend2)
     
     plt.show()
+    
+    plot_clusters_3d(df_new, clusters, target)
+    # plot_target_3d(df_new, target)
+    
+    
+def plot_clusters_3d(df_new, clusters, target):
+    pca = PCA(n_components=3)
+    trans_data_pca = pca.fit_transform(df_new)
+    fig = plt.figure(figsize=(16, 8))
+    
+    ax = fig.add_subplot(121, projection='3d')
+
+    scatter = ax.scatter(trans_data_pca[:, 0], trans_data_pca[:, 1],
+                         trans_data_pca[:, 2], c=clusters, cmap='viridis', s=50)
+    
+    ax.set_xlabel('Principal Component 1')
+    ax.set_ylabel('Principal Component 2')
+    ax.set_zlabel('Principal Component 3')
+
+    cb = plt.colorbar(scatter)
+    cb.set_label('Cluster Label')
+    plt.title('Predicted clusters')
+    
+    
+    ax2 = fig.add_subplot(122, projection='3d')
+
+    scatter2 = ax2.scatter(trans_data_pca[:, 0], trans_data_pca[:, 1],
+                         trans_data_pca[:, 2], c=target, cmap='viridis', s=50)
+    ax2.set_xlabel('Principal Component 1')
+    ax2.set_ylabel('Principal Component 2')
+    ax2.set_zlabel('Principal Component 3')
+    
+    cb2 = plt.colorbar(scatter2)
+    cb2.set_label('Cluster Label')
+
+    plt.title('Actual Clusters')
+    plt.show()
+    
+    
+def plot_target_3d(df_new, target):
+    pca = PCA(n_components=3)
+    trans_data_pca = pca.fit_transform(df_new)
+    fig = plt.figure(figsize=(16, 8))
+    ax = fig.add_subplot(111, projection='3d')
+
+    scatter = ax.scatter(trans_data_pca[:, 0], trans_data_pca[:, 1],
+                         trans_data_pca[:, 2], c=target, cmap='viridis', s=50)
+    ax.set_xlabel('Principal Component 1')
+    ax.set_ylabel('Principal Component 2')
+    ax.set_zlabel('Principal Component 3')
+
+    # ax.legend()
+    cb = plt.colorbar(scatter)
+    cb.set_label('Cluster Label')
+
+    plt.title('Actual Clusters')
+    plt.show()
+
+
     
 def task3(df, target, num_classes, algo):
     """
