@@ -6,7 +6,8 @@ import numpy as np
 from itertools import permutations
 
 # from ucimlrepo import fetch_ucirepo
-from sklearn.datasets import load_wine, load_iris, load_breast_cancer
+from sklearn.datasets import load_wine, load_iris, load_breast_cancer, load_digits
+from sklearn.datasets import fetch_openml
 from sklearn.cluster import AgglomerativeClustering, SpectralClustering, KMeans
 from sklearn.mixture import GaussianMixture
 from sklearn.metrics.cluster import adjusted_mutual_info_score, adjusted_rand_score, completeness_score, homogeneity_score, v_measure_score, mutual_info_score
@@ -117,6 +118,27 @@ def load_data(name, normalize=False, reduction='mean'):
         
         return df, target.values, num_classes
     
+    if name == 'kc2':
+        data = fetch_openml(name='kc2', parser='auto')
+        df = pd.DataFrame(data.data, columns=data.feature_names)
+        df['target'] = data.target
+        df['target'] = df['target'].apply(lambda x: 1 if x == 'yes' else 0)
+        df = df.sample(frac=1)
+        
+        if normalize:
+            for col in data.feature_names:
+                df[col] = (df[col] - df[col].mean()) / df[col].std()
+        
+        for col in data.feature_names:
+            if reduction == 'mean':
+                df[col] = df[col] >= df[col].mean()
+            elif reduction == 'median':
+                df[col] = df[col] >= df[col].median()
+        
+        num_classes = 2
+        
+        return df.drop('target', axis=1), df['target'].values, num_classes
+        
     else:
         raise ValueError("Invalid dataset name")
 
