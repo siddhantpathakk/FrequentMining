@@ -6,37 +6,83 @@ from sklearn.decomposition import PCA
 
 from utils.task3_utils import *
 
+def _init_empty_dict(minsup_vals, algos):
+    final_dict = {}
+    for algo in algos:
+        final_dict[algo] = {}
+        for minsup in minsup_vals:
+            final_dict[algo][minsup] = []
+    return final_dict
+
+def _fix_dictionary(_ans_dict):
+    new_dict = {}
+    for algo in _ans_dict:
+        new_dict[algo] = {}
+        for minsup in _ans_dict[algo]:
+            if not isinstance(_ans_dict[algo][minsup], list):
+                new_dict[algo][minsup] = _ans_dict[algo][minsup]
+    return new_dict
+                
 
 def tune_minsup(df, target, num_classes, minsup_values, algorithms):
     best_minsups = []
+    accs_dict = _init_empty_dict(minsup_values, algorithms)
     
+    cutoff = 1
     for minsup in minsup_values:
+        
+        if minsup > cutoff:
+            break
+        
         frequent_itemsets = get_frequent_itemsets(df, minsup)
         
-        for algo in algorithms:
+        if len(frequent_itemsets) == 0:
+            cutoff = minsup
+            break
+        
+        for algo in algorithms:            
             best_accuracy_for_algo = 0
             best_minsup_for_algo = None
-
-            if len(frequent_itemsets) == 0:
-                break
 
             df_transformed = make_cluster_df(df, frequent_itemsets)
             clusters = do_clustering(df_transformed, algo, n_clusters=num_classes)
             accuracy, _ = remap_labels(clusters, target)
+            accs_dict[algo][minsup] = accuracy
 
-            # Update best minsup and accuracy for this algorithm
             if accuracy > best_accuracy_for_algo:
                 best_accuracy_for_algo = accuracy
                 best_minsup_for_algo = minsup
+                # print(f'Best minsup for {algo}:\t{best_minsup_for_algo:.3f}\tAccuracy:\t{best_accuracy_for_algo:.4f}')
+                best_minsups.append(best_minsup_for_algo)
 
-        if best_minsup_for_algo is not None:
-            best_minsups.append(best_minsup_for_algo)
+    accs_dict = _fix_dictionary(accs_dict)
 
-    if best_minsups:
-        avg_best_minsup = sum(best_minsups) / len(best_minsups)
-        return round(avg_best_minsup,3)
-    else:
-        return None
+    # get minsup with highest accuracy for each algorithm
+    best_minsups_dict = {}
+    for algo in algorithms:
+        best_minsups_dict[algo] = max(accs_dict[algo], key=accs_dict[algo].get)
+
+    best_minsup_for_all = max(best_minsups_dict, key=best_minsups_dict.get)
+    best_minsup_val = best_minsups_dict[best_minsup_for_all]
+    
+    
+    fig, ax = plt.subplots(1, 1)
+    fig.set_size_inches(16, 8)
+    
+    for algo in accs_dict:
+        ax.plot(accs_dict[algo].keys(), accs_dict[algo].values(), label=algo)
+        
+    for algo in accs_dict:
+        ax.scatter(best_minsups_dict[algo], accs_dict[algo][best_minsups_dict[algo]], c='r', marker = 'x', s=100)
+        
+    ax.set_xlabel('Minsup')
+    ax.set_ylabel('Accuracy')
+    ax.set_title('Minsup vs Accuracy')
+    ax.legend()    
+    plt.show()
+
+
+    return round(best_minsup_val,3)
 
 
 class VotingClassifier:
@@ -64,8 +110,6 @@ class VotingClassifier:
             raise NotImplementedError('Only hard voting is implemented for now. Please use type="hard"')
 
     def hard_voting(self, individual_predictions, num_samples):
-        # simply count the votes of each estimator class
-        # and return the most voted class
         new_votes = []
         for i in range(num_samples):
             cur_votes = self.get_cur_votes(individual_predictions, i)
