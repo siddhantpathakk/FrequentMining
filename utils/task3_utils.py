@@ -244,7 +244,7 @@ def plot_clusters(df_new, clusters, target):
     pca = PCA(n_components=2)
     trans_data_pca = pca.fit_transform(df_new)
 
-    fig, ax = plt.subplots(1, 2, figsize=(12, 4))
+    fig, ax = plt.subplots(1, 2, figsize=(20, 8))
     scatter = ax[0].scatter(trans_data_pca[:, 0],  trans_data_pca[:, 1],c=clusters, cmap='viridis')
     ax[0].set_title('Predicted clusters')
     legend = ax[0].legend(*scatter.legend_elements(), loc="lower left", title="Classes")
