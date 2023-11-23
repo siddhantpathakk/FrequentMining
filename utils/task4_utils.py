@@ -250,3 +250,37 @@ def plot_clusters(estimator_names, ip, votes, df_new, target, plot_all=False):
         ax[1].add_artist(legend_1)
         
         plt.show()
+        
+        plot_clusters_3d(df_new, votes, target)
+         # plot_target_3d(df_new, target)
+    
+    
+def plot_clusters_3d(df_new, clusters, target):
+    pca = PCA(n_components=3)
+    trans_data_pca = pca.fit_transform(df_new)
+    fig = plt.figure(figsize=(24, 8))
+    
+    ax = fig.add_subplot(121, projection='3d')
+    scatter = ax.scatter(trans_data_pca[:, 0], trans_data_pca[:, 1],
+                         trans_data_pca[:, 2], c=clusters, cmap='viridis', s=50)
+    
+    ax.set_xlabel('Principal Component 1')
+    ax.set_ylabel('Principal Component 2')
+    ax.set_zlabel('Principal Component 3')
+    legend1 = ax.legend(*scatter.legend_elements(), loc="best", title="Classes")
+    ax.add_artist(legend1)
+    plt.title('Predicted clusters')
+    
+    
+    ax2 = fig.add_subplot(122, projection='3d')
+    scatter2 = ax2.scatter(trans_data_pca[:, 0], trans_data_pca[:, 1],
+                         trans_data_pca[:, 2], c=target, cmap='viridis', s=50)
+    ax2.set_xlabel('Principal Component 1')
+    ax2.set_ylabel('Principal Component 2')
+    ax2.set_zlabel('Principal Component 3')
+    
+    legend2 = ax2.legend(*scatter2.legend_elements(), loc="best", title="Classes")
+    ax2.add_artist(legend2)
+    plt.title('Actual Clusters')
+
+    plt.show()
