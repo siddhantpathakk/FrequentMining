@@ -9,9 +9,9 @@ if __name__ == "__main__":
     
     threshold=0
 
-    support=500
+    support=12500
     
-    dataset_name = 'yelp'
+    dataset_name = 'ml-20m'
     input_file=f'./data/{dataset_name}/transactions.csv'
     output_file=f'./logs/{dataset_name}/{dataset_name}_minsup{support}.txt'
 
