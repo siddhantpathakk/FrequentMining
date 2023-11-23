@@ -209,12 +209,12 @@ def do_clustering(df, algo, n_clusters):
     return clusters
 
 def evaluate_clusters(cluster, target, df=None):
-    print(f"V measure Score:\t{v_measure_score(cluster, target):.4f}")
-    print(f"Homogeneity Score:\t{homogeneity_score(cluster, target):.4f}")
-    print(f"Completeness Score:\t{completeness_score(cluster, target):.4f}")
-    print(f"Adj. Rand Score:\t{adjusted_rand_score(cluster, target):.4f}")
-    print(f"Mutual Info Score:\t{mutual_info_score(cluster, target):.4f}")
-    print(f"Adj. Mutual Info Score:\t{adjusted_mutual_info_score(cluster, target):.4f}")
+    # print(f"V measure Score:\t{v_measure_score(cluster, target):.4f}")
+    # print(f"Homogeneity Score:\t{homogeneity_score(cluster, target):.4f}")
+    # print(f"Completeness Score:\t{completeness_score(cluster, target):.4f}")
+    # print(f"Adj. Rand Score:\t{adjusted_rand_score(cluster, target):.4f}")
+    # print(f"Mutual Info Score:\t{mutual_info_score(cluster, target):.4f}")
+    # print(f"Adj. Mutual Info Score:\t{adjusted_mutual_info_score(cluster, target):.4f}")
     
     print(f"\nDavies Bouldin Score:\t{davies_bouldin_score(df, cluster):.4f}")
     print(f"Silhouette Score:\t{silhouette_score(df, cluster):.4f}")
