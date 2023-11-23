@@ -64,63 +64,6 @@ def son2count_freq(basket, subsets):
     return frequency
 
 
-def generateFreqitem(basket, ck, support_threshold):
-    """
-    Function to generate frequent itemsets from candidata itemsets
-
-    Args:
-        basket (Iterable): basket
-        ck (Iterable): candidate sets
-        support_threshold (float): support threshold
-
-    Returns:
-        list: frequent itemsets
-    """
-    C1 = [tuple(x) for x in ck]
-    cnt = {}  # dict to store count for each candidate
-    for i in basket:
-        for c in C1:
-            if (set(c).issubset(i)):
-                if c in cnt:
-                    cnt[c] += 1
-                else:
-                    cnt[c] = 1
-
-    freq_item = []  # frequent item to extract items count>=support_threshold
-    for key in cnt:
-        if cnt[key] >= support_threshold:
-            freq_item.append(key)
-    return freq_item  # return frequent items from candidate set
-
-
-def son2count_freq(basket, subsets):
-    """
-    Function to count frequency of candidate itemsets
-
-    Args:
-        basket (Iterable): basket
-        subsets (Iterable): candidate sets
-
-    Returns:
-        list: list of (frequent items, count) pairs
-    """
-    
-    # make sure to convert elemnet inside list to a tuple before starting to create dict count
-    C1 = [tuple(x) for x in subsets]
-    cnt = {}
-    for i in basket:
-        for c in C1:
-            if (set(c).issubset(i)):
-                if c in cnt:
-                    cnt[c] += 1
-                else:
-                    cnt[c] = 1
-    frequency = []
-    for key in cnt:
-        # append(frequency to be (frequent items, count) pairs)
-        frequency.append([key, cnt[key]])
-    return frequency
-
 
 def apriori(basket, support, num_baskets):
     """
